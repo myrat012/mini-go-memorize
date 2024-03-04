@@ -41,9 +41,15 @@ func NewMemorize(dbPath string) (*Memorize, error) {
 }
 
 func (m *Memorize) Start() {
+	// create word table
+	err := m.Database.CreateWordTable()
+	if err != nil {
+		fmt.Println("Error call CreateWordTable.")
+		return
+	}
 
-	// create settings tables
-	err := m.Database.CreateSettingTable()
+	// create settings table
+	err = m.Database.CreateSettingTable()
 	if err != nil {
 		fmt.Println("Error call CreateSettingTable.")
 		return
@@ -180,6 +186,17 @@ func mainMenu(mainWindow fyne.Window, mainContainer *fyne.Container, m *Memorize
 		originalWord,
 		translatedWord,
 		widget.NewButton("Save", func() {
+			// add words to database
+			newWord := model.Dictinary{
+				Word:           originalWord.Text,
+				TranslatedWord: translatedWord.Text,
+			}
+			err := m.Database.InsertWordTable(&newWord)
+			if err != nil {
+				fmt.Println("Error can't Insert word table")
+				return
+			}
+
 			originalWord.SetText("")
 			translatedWord.SetText("")
 		}),
