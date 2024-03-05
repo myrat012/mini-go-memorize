@@ -1,6 +1,7 @@
 package model
 
 const SettingsTableName = "tbl_settings"
+const WordsTableName = "tbl_words"
 
 type Settings struct {
 	IsRandom  bool `db:"is_random"`
@@ -9,6 +10,6 @@ type Settings struct {
 }
 
 type Dictinary struct {
-	word           string
-	translatedWord string
+	Word           string `db:"word"`
+	TranslatedWord string `db:"translate_word"`
 }

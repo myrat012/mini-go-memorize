@@ -82,6 +82,24 @@ func (s Sqlite) SelectSettingsTable() (*model.Settings, error) {
 	return &settings, nil
 }
 
+func (s Sqlite) CreateWordTable() (err error) {
+	_, err = s.Database.Exec("CREATE TABLE IF NOT EXISTS " + model.WordsTableName + " (id INTEGER PRIMARY KEY, word VARCHAR(150), translate_word VARCHAR(150))")
+	if err != nil {
+		fmt.Printf("error Creating Word table")
+		return err
+	}
+	return nil
+}
+
+func (s Sqlite) InsertWordTable(w *model.Dictinary) (err error) {
+	_, err = s.Database.Exec("INSERT INTO "+model.WordsTableName+" (word, translate_word) VALUES (?, ?)", &w.Word, &w.TranslatedWord)
+	if err != nil {
+		fmt.Printf("error Insert Word table")
+		return err
+	}
+	return nil
+}
+
 func isTableEmty(db *sql.DB, tableName string) (bool, error) {
 	var count int
 	err := db.QueryRow("SELECT COUNT(*) FROM " + tableName).Scan(&count)
