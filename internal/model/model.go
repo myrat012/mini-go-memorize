@@ -13,3 +13,9 @@ type Dictinary struct {
 	Word           string `db:"word"`
 	TranslatedWord string `db:"translate_word"`
 }
+
+type ListDictinary struct {
+	Id             string `db:"id"`
+	Word           string `db:"word"`
+	TranslatedWord string `db:"translate_word"`
+}
